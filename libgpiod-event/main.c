@@ -8,7 +8,7 @@
 
 int main(int argc, char **argv)
 {
-	char *chipname = "gpiochip0";
+	char *chipname = "gpiochip0"; 	// To get gpiochipN, you can find N when running `ls -al` in /sys/class/gpio/gpioXXX/
 	unsigned int line_num = 25;	// GPIO Pin #25
 	struct timespec ts = { 1, 0 };
 	struct gpiod_line_event event;
@@ -40,7 +40,8 @@ int main(int argc, char **argv)
 	/* Notify event up to 20 times */
 	i = 0;
 	while (i <= 20) {
-		ret = gpiod_line_event_wait(line, &ts);
+		// ret = gpiod_line_event_wait(line, &ts);
+		ret = gpiod_line_event_wait(line, NULL); // Use NULL as timespec to do blocked waiting
 		if (ret < 0) {
 			perror("Wait event notification failed\n");
 			ret = -1;
